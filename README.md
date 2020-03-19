@@ -22,5 +22,5 @@ to build dependencies and ather that, run
 
 to run the project, ensure your `localhost:8081` port is not being used.
 
-Visit `localhost:8081` to see the current index page.
+Visit `localhost:8081/index` to see the current index page.
 
