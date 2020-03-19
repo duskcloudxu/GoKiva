@@ -1,0 +1,56 @@
+buildscript {
+	ext {
+		springBootVersion = '2.2.5.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 11
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+	providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.5.RELEASE'
+	// https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core
+	compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.30'
+
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
+	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.2.5.RELEASE'
+
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.2.5.RELEASE'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.5.RELEASE'
+	// https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper
+	compile group: 'org.apache.tomcat', name: 'tomcat-jasper', version: '9.0.30'
+
+
+
+
+
+}
