@@ -42,7 +42,7 @@ In Idea, you could generate corresponding test file by rightclick->generate->tes
 
 Do remember use JUnit4 as testing library. I personnaly recommend generate a test for every method when you are developing. For example:
 
-![image-20200319223853789](../../Library/Application Support/typora-user-images/image-20200319223853789.png)
+![image-20200319225426992](https://tva1.sinaimg.cn/large/00831rSTgy1gd0cn9blksj31iq09o0uo.jpg)
 
 To test `getBorrowersById` Method in BorrowersDao. By clicking the triangle icon in the left you could run or debug in test, and it would be very useful in development since you could set breakpoint and inspect your variables at any time to help you figure out the problem. Also, test is a good way to help others to understand the method you write.
 
