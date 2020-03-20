@@ -48,6 +48,8 @@ dependencies {
 	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.5.RELEASE'
 	// https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper
 	compile group: 'org.apache.tomcat', name: 'tomcat-jasper', version: '9.0.30'
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
 
 
 
