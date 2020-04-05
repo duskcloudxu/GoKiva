@@ -1,20 +1,17 @@
-<%@ page import="com.timeWizard.GokivaBackEnd.DAO.BorrowersDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>index</title>
+    <title>Search History</title>
 </head>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous">
 <link rel="stylesheet" href="global.css">
-<link rel="stylesheet" href="home.css">
 <link rel="stylesheet" href="nav.css">
 <body>
-<div class="globalContainer home">
-    <div class="container-fluid">
-        <div class="row">
+<div class="globalContainer">
+    <div class=" container-fluid">
             <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-kivaGreen">
                 <a class="mx-4 navbar-brand text-white font-weight-bold item" href="/">GoKiva</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,12 +39,8 @@
                     </ul>
                 </div>
             </nav>
-        </div>
-        <div class="row">
-            <div class="desc mt-4 ml-auto mr-5">
-                <div class="text text-white mr-5">Microlending</div>
-                <div class="text text-white mr-5">visualized.</div>
-            </div>
+<div>
+            search history
         </div>
     </div>
 </div>

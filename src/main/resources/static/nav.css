@@ -1,0 +1,11 @@
+.navbar {
+  height: 5rem;
+}
+.navbar .show {
+  border-radius: 5px;
+  background: #178e32d4;
+}
+.navbar .show .nav-item {
+  width: 60%;
+}
+/*# sourceMappingURL=nav.css.map */

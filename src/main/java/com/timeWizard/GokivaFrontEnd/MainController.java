@@ -29,5 +29,38 @@ public class MainController {
         System.out.println("index Arrive!");
         return mav;
     }
+    @RequestMapping(method = RequestMethod.GET, value = "/template" )
+    public ModelAndView template(){
+        ModelAndView mav = new ModelAndView("template");
+        return mav;
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/userSignIn" )
+    public ModelAndView userSignIn(){
+        ModelAndView mav = new ModelAndView("userSignIn");
+        return mav;
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/userRegister" )
+    public ModelAndView userRegister(){
+        ModelAndView mav = new ModelAndView("userRegister");
+        return mav;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/category" )
+    public ModelAndView category(){
+        ModelAndView mav = new ModelAndView("category");
+        return mav;
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/history" )
+    public ModelAndView history(){
+        ModelAndView mav = new ModelAndView("history");
+        return mav;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/search" )
+    public ModelAndView search(){
+        ModelAndView mav = new ModelAndView("search");
+        return mav;
+    }
+
 
 }

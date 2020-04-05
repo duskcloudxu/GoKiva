@@ -1,0 +1,8 @@
+.home {
+  background: url("images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+.home .desc {
+  font-size: 48px;
+}
+/*# sourceMappingURL=home.css.map */
