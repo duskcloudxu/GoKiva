@@ -39,9 +39,42 @@
                     </ul>
                 </div>
             </nav>
-<div>
-            user Register
-        </div>
+
+
+            <span class="border border-secondary">
+            <div class="d-flex justify-content-center">
+
+                <form class="form-signin">
+                    <div class="form-group">
+                        <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
+                    </div>
+                    <div class="form-group">
+                        <label for="userName" class="sr-only">User Name</label>
+                        <input type="userName" id="userName" class="form-control" placeholder="User Name" required="" autofocus="">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="retypedPassword" class="sr-only">Retype Password</label>
+                        <input type="password" id="retypedPassword" class="form-control" placeholder="Retype Password" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="sr-only">First Name</label>
+                        <input type="text" id="firstName" class="form-control" placeholder="First Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="sr-only">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Last Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Create new account</button>
+                    </div>
+                </form>
+            </div>
+            </span>
+
     </div>
 </div>
 </body>
