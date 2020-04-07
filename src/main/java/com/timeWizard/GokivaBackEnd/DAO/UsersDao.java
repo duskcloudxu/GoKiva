@@ -30,7 +30,7 @@ protected ConnectionManager connectionManager;
 	 * This runs a INSERT statement.
 	 */
 	public Users create(Users user) throws SQLException {
-		String insertPerson = "INSERT INTO Users(UserName) VALUES(?);";
+		String insertPerson = "INSERT INTO Users(UserName,Password, FirstName, Email) VALUES(?,?,?,?);";
 		Connection connection = null;
 		PreparedStatement insertStmt = null;
 		try {
@@ -38,6 +38,12 @@ protected ConnectionManager connectionManager;
 			insertStmt = connection.prepareStatement(insertPerson);
 
 			insertStmt.setString(1, user.getUserName());
+			insertStmt.setString(2, user.getPassword());
+			insertStmt.setString(3, user.getFirstName());
+			insertStmt.setString(4, user.getEmail());
+
+
+
 
 			insertStmt.executeUpdate();
 
@@ -83,45 +89,6 @@ protected ConnectionManager connectionManager;
 	}
 
 	/**
-	 * Get the Users record by fetching it from your MySQL instance.
-	 * This runs a SELECT statement and returns a single Users instance.
-	 */
-	public Users getPersonFromUserName(String userName) throws SQLException {
-		String selectPerson = "SELECT UserName FROM Users WHERE UserName=?;";
-		Connection connection = null;
-		PreparedStatement selectStmt = null;
-		ResultSet results = null;
-		try {
-			connection = connectionManager.getConnection();
-			selectStmt = connection.prepareStatement(selectPerson);
-			selectStmt.setString(1, userName);
-
-			results = selectStmt.executeQuery();
-
-			if(results.next()) {
-				String resultUserName = results.getString("UserName");
-
-				Users user = new Users(resultUserName);
-				return user;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if(connection != null) {
-				connection.close();
-			}
-			if(selectStmt != null) {
-				selectStmt.close();
-			}
-			if(results != null) {
-				results.close();
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Get the matching Users records by fetching from your MySQL instance.
 	 * This runs a SELECT statement and returns a list of matching Users.
 	 */
@@ -139,8 +106,13 @@ protected ConnectionManager connectionManager;
 			results = selectStmt.executeQuery();
 			if(results.next()) {
 				String resultUserName = results.getString("UserName");
+				String password = results.getString("Password");
+				String firstName = results.getString("FirstName");
+				String email = results.getString("Email");
 
-				Users user = new Users(resultUserName);
+
+
+				Users user = new Users(resultUserName, password, firstName, email);
 				return user;
 				//users.add(user);
 			}
@@ -159,5 +131,11 @@ protected ConnectionManager connectionManager;
 			}
 		}
 		return null;
+	}
+
+	public boolean authenticatePassword(String username, String password) throws SQLException {
+		Users user = getUsersByUserName(username);
+		return password == user.getPassword();
+
 	}
 }
