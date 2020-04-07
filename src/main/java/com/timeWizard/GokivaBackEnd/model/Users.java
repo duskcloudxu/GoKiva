@@ -4,13 +4,13 @@ public class Users {
 	protected String UserName;
 	protected String Password;
 	protected String FirstName;
-	protected String Email;
+	protected String LastName;
 
-	public Users(String userName, String password, String firstName, String email) {
+	public Users(String userName, String password, String firstName, String lastName) {
 		super();
 		UserName = userName;
 		FirstName = firstName;
-		Email = email;
+		LastName = lastName;
 		Password = password;
 	}
 
@@ -29,12 +29,12 @@ public class Users {
 		FirstName = firstName;
 	}
 
-	public String getEmail() {
-		return Email;
+	public String getLastName() {
+		return LastName;
 	}
 
-	public void setEmail(String email) {
-		Email = email;
+	public void setEmail(String lastName) {
+		LastName = lastName;
 	}
 
 	public String getPassword() {
