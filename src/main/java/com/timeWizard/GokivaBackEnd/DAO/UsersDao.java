@@ -30,7 +30,7 @@ protected ConnectionManager connectionManager;
 	 * This runs a INSERT statement.
 	 */
 	public Users create(Users user) throws SQLException {
-		String insertPerson = "INSERT INTO Users(UserName,Password, FirstName, Email) VALUES(?,?,?,?);";
+		String insertPerson = "INSERT INTO Users(UserName,Password, FirstName, LastName) VALUES(?,?,?,?);";
 		Connection connection = null;
 		PreparedStatement insertStmt = null;
 		try {
@@ -40,7 +40,7 @@ protected ConnectionManager connectionManager;
 			insertStmt.setString(1, user.getUserName());
 			insertStmt.setString(2, user.getPassword());
 			insertStmt.setString(3, user.getFirstName());
-			insertStmt.setString(4, user.getEmail());
+			insertStmt.setString(4, user.getLastName());
 
 
 
@@ -108,7 +108,7 @@ protected ConnectionManager connectionManager;
 				String resultUserName = results.getString("UserName");
 				String password = results.getString("Password");
 				String firstName = results.getString("FirstName");
-				String email = results.getString("Email");
+				String email = results.getString("LastName");
 
 
 
