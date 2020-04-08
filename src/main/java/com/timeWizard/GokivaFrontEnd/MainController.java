@@ -83,5 +83,12 @@ public class MainController {
         return mav;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/dataVisualization" )
+    public ModelAndView search(@RequestParam Map<String,String> allRequestParams){
+        ModelAndView mav = new ModelAndView("dataVisualization");
+        mav.addObject("dataObj",allRequestParams);
+        return mav;
+    }
+
 
 }
