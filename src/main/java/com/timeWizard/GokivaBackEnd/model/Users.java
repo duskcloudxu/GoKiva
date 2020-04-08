@@ -33,7 +33,7 @@ public class Users {
 		return LastName;
 	}
 
-	public void setEmail(String lastName) {
+	public void setLastName(String lastName) {
 		LastName = lastName;
 	}
 

@@ -5,18 +5,30 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
+
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Base64;
+
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 import  com.timeWizard.GokivaBackEnd.model.*;
 
 public class UsersDao {
 protected ConnectionManager connectionManager;
+private final SecureRandom random;
+
 
 	// Single pattern: instantiation is limited to one object.
 	private static UsersDao instance = null;
 	protected UsersDao() {
 		connectionManager = new ConnectionManager();
+		random = new SecureRandom();
 	}
 	public static UsersDao getInstance() {
 		if(instance == null) {
@@ -108,11 +120,11 @@ protected ConnectionManager connectionManager;
 				String resultUserName = results.getString("UserName");
 				String password = results.getString("Password");
 				String firstName = results.getString("FirstName");
-				String email = results.getString("LastName");
+				String lastName = results.getString("LastName");
 
 
 
-				Users user = new Users(resultUserName, password, firstName, email);
+				Users user = new Users(resultUserName, password, firstName, lastName);
 				return user;
 				//users.add(user);
 			}
@@ -138,4 +150,37 @@ protected ConnectionManager connectionManager;
 		return password == user.getPassword();
 
 	}
+
+	public String hashPassword(String password)
+			throws NoSuchAlgorithmException, InvalidKeySpecException {
+//		byte[] salt = new byte[16];
+//		random.nextBytes(salt);
+//		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt,  65536, 128);
+//		SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+//		byte[] hash = f.generateSecret(spec).getEncoded();
+//		Base64.Encoder enc = Base64.getEncoder();
+//		System.out.printf("salt: %s%n", enc.encodeToString(salt));
+//		System.out.printf("hash: %s%n", enc.encodeToString(hash));
+//		return salt + "$" + hash;
+
+		KeySpec spec = new PBEKeySpec(password.toCharArray());
+		SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+		byte[] hash = f.generateSecret(spec).getEncoded();
+		Base64.Encoder enc = Base64.getEncoder();
+		System.out.printf("hash: %s%n", enc.encodeToString(hash));
+		return enc.encodeToString(hash);
+	}
+
+	public Users createAccount(String userName, String password, String retypedPassword, String firstName, String lastName)
+			throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException{
+		if (password == retypedPassword) {
+			String hashed = hashPassword(password);
+
+			return create(new Users(userName, hashed, firstName, lastName));
+		} else {
+			System.err.println("Passwords do not match.");
+			return null;
+		}
+	}
+
 }

@@ -45,6 +45,12 @@ public class MainController {
         ModelAndView mav = new ModelAndView("userRegister");
         return mav;
     }
+  @RequestMapping(method = RequestMethod.POST, value = "/userRegister" )
+  public ModelAndView userRegisterPost(){
+    ModelAndView mav = new ModelAndView("userRegister");
+    return mav;
+  }
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/category" )
     public ModelAndView category(){
