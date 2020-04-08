@@ -121,7 +121,7 @@
                         </thead>
                         <tbody>
                         <c:set var="list" scope="session"
-                               value="${searchManager.getLoanInPage(page)}"/>
+                               value="${searchManager.getLoanInPage(searchObj)}"/>
                         <c:forEach items="${list}" var="item">
                             <tr>
                                 <td>${item.getLoanId()}</td>

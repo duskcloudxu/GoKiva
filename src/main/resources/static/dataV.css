@@ -1,0 +1,17 @@
+.dataV .chartContainer {
+  height: 80vh;
+}
+.dataV .custom-control-label::before,
+.dataV .custom-control-label::after {
+  width: 2rem;
+  height: 2rem;
+  top: 0rem;
+  left: -3rem;
+}
+.dataV .custom-control {
+  position: relative;
+  display: block;
+  min-height: 3rem;
+  padding-left: 3rem;
+}
+/*# sourceMappingURL=dataV.css.map */

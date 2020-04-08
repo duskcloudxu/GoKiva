@@ -2,12 +2,17 @@ package com.timeWizard.GokivaFrontEnd;
 
 import com.timeWizard.GokivaBackEnd.DAO.BorrowersDao;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -64,10 +69,30 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search" )
-    public ModelAndView search(@RequestParam(value = "page",required = false) Integer page){
-        if(page==null||page<0)page=0;
+    public ModelAndView search(@RequestParam Map<String,String> allRequestParams, ModelMap model){
+        int page=Integer.parseInt(allRequestParams.getOrDefault("page","0"));
+        if(page < 0)page=0;
+        Map<String,String> copyParams=new HashMap<>(allRequestParams);
+        List<String>toBeDeleted=new ArrayList<>();
+        for(String key:copyParams.keySet()){
+            String val=copyParams.get(key);
+            if(val.length()==0){
+              toBeDeleted.add(key);
+            }
+        }
+        for(String key:toBeDeleted){
+            allRequestParams.remove(key);
+        }
         ModelAndView mav = new ModelAndView("search");
         mav.addObject("page",page);
+        mav.addObject("searchObj",allRequestParams);
+        return mav;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/dataVisualization" )
+    public ModelAndView search(@RequestParam Map<String,String> allRequestParams){
+        ModelAndView mav = new ModelAndView("dataVisualization");
+        mav.addObject("dataObj",allRequestParams);
         return mav;
     }
 
