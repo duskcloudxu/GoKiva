@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import  com.timeWizard.GokivaBackEnd.model.*;
 
@@ -14,11 +16,13 @@ public class SearchDao {
 	protected ConnectionManager connectionManager;
 
 	private static SearchDao instance = null;
+
 	protected SearchDao() {
 		connectionManager = new ConnectionManager();
 	}
+
 	public static SearchDao getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new SearchDao();
 		}
 		return instance;
@@ -39,7 +43,6 @@ public class SearchDao {
 			insertStmt.setInt(3, search.getLoan().getLoanId());
 
 
-
 			insertStmt.executeUpdate();
 
 			return search;
@@ -47,23 +50,25 @@ public class SearchDao {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if(connection != null) {
+			if (connection != null) {
 				connection.close();
 			}
-			if(insertStmt != null) {
+			if (insertStmt != null) {
 				insertStmt.close();
 			}
 		}
 	}
 
 	public Search delete(Search search) throws SQLException {
-		String deleteSearch = "DELETE FROM Search WHERE VisitId=?;";
+		String deleteSearch = "DELETE FROM Search WHERE UserName=? and LoanId=?;";
 		Connection connection = null;
 		PreparedStatement deleteStmt = null;
 		try {
 			connection = connectionManager.getConnection();
 			deleteStmt = connection.prepareStatement(deleteSearch);
-			deleteStmt.setInt(1, search.getVisitId());
+			deleteStmt.setString(1, search.getUser().getUserName());
+			deleteStmt.setInt(2, search.getLoan().getLoanId());
+
 			deleteStmt.executeUpdate();
 
 			return null;
@@ -71,61 +76,157 @@ public class SearchDao {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if(connection != null) {
+			if (connection != null) {
 				connection.close();
 			}
-			if(deleteStmt != null) {
+			if (deleteStmt != null) {
 				deleteStmt.close();
 			}
 		}
 	}
 
-	public Search getSearchById(int visitId) throws SQLException {
+
+	public HashMap<Loans, Integer> getSearchByUserName(String userName) throws SQLException {
 		String selectSearch =
-			"SELECT visitId, timesVisited, userName, loanId " +
-			"FROM Search " +
-			"WHERE VisitId=?;";
+				"SELECT visitId, timesVisited, userName, loanId " +
+						"FROM Search " +
+						"WHERE UserName=?;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
+		HashMap<Loans, Integer> searchMap = new HashMap<>();
 		try {
 			connection = connectionManager.getConnection();
 			selectStmt = connection.prepareStatement(selectSearch);
-			selectStmt.setInt(1, visitId);
+			selectStmt.setString(1, userName);
 			results = selectStmt.executeQuery();
 			UsersDao usersDao = UsersDao.getInstance();
 			LoansDao loansDao = LoansDao.getInstance();
-			if(results.next()) {
-				int resultVisitedIdInt = results.getInt("VisitId");
+
+			while (results.next()) {
+
+				int visitId = results.getInt("VisitId");
 				int timesVisited = results.getInt("TimesVisited");
-				String userName = results.getString("UserName");
+				String resultUserName = results.getString("UserName");
 				int loanId = results.getInt("LoanId");
 
 
-				Users user = usersDao.getUsersByUserName(userName);
+				Users user = usersDao.getUsersByUserName(resultUserName);
 				Loans loan = loansDao.getLoansById(loanId);
 
-
-
-				Search search = new Search(resultVisitedIdInt, timesVisited,user,loan);
-				return search;
+				Search search = new Search(visitId, timesVisited, user, loan);
+				searchMap.put(search.getLoan(), search.getTimesVisited());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if(connection != null) {
+			if (connection != null) {
 				connection.close();
 			}
-			if(selectStmt != null) {
+			if (selectStmt != null) {
 				selectStmt.close();
 			}
-			if(results != null) {
+			if (results != null) {
+				results.close();
+			}
+		}
+		return searchMap;
+	}
+
+	public Search getSearchByLoanId(int loanId) throws SQLException {
+		String selectSearch =
+				"SELECT visitId, timesVisited, userName, loanId " +
+						"FROM Search " +
+						"WHERE LoanId=?;";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		HashMap<Loans, Integer> searchMap = new HashMap<>();
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectSearch);
+			selectStmt.setInt(1, loanId);
+			results = selectStmt.executeQuery();
+			UsersDao usersDao = UsersDao.getInstance();
+			LoansDao loansDao = LoansDao.getInstance();
+
+			if (results.next()) {
+
+				int timesVisited = results.getInt("TimesVisited");
+
+
+				Users user = usersDao.getUsersByUserName(results.getString("UserName"));
+				Loans loan = loansDao.getLoansById(results.getInt("LoanId"));
+
+				return new Search(timesVisited, user, loan);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
 				results.close();
 			}
 		}
 		return null;
 	}
+
+	public Search updateTimesVisited(int timesVisited, Users user, Loans loan) throws SQLException {
+			String updateSearch = "UPDATE Search SET TimesVisited=? WHERE Users=? and LoanId=?;";
+			Connection connection = null;
+			PreparedStatement updateStmt = null;
+
+			try {
+				connection = connectionManager.getConnection();
+				updateStmt = connection.prepareStatement(updateSearch);
+				updateStmt.setInt(1, timesVisited);
+				updateStmt.setString(2, user.getUserName());
+				updateStmt.setInt(3, loan.getLoanId());
+				updateStmt.executeUpdate();
+
+				return new Search(timesVisited, user, loan);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				if(connection != null) {
+					connection.close();
+				}
+				if(updateStmt != null) {
+					updateStmt.close();
+				}
+			}
+	}
+
+
+	public HashMap<Loans, Integer> saveSearchResults(Users user, ArrayList<Loans> loans) throws SQLException {
+		HashMap<Loans, Integer> previousLoans = getSearchByUserName(user.getUserName());
+		for (Loans loan : loans) {
+			int increment = 0;
+			if (previousLoans.containsKey(loan)) {
+
+
+				increment += previousLoans.get(loan);
+				previousLoans.put(loan, increment);
+				updateTimesVisited(increment, user, loan);
+
+			} else {
+				create(new Search(0, user, loan));
+			}
+		}
+
+		return getSearchByUserName(user.getUserName());
+	}
+
+
+
 
 }
 

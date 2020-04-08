@@ -95,5 +95,25 @@ public class Loans {
 		this.partner = partner;
 	}
 
+	@Override
+	public int hashCode() {
+		return this.getLoanId();
+	}
+
+	@Override
+	public boolean equals(Object object){
+		if(this == object) {
+			return true;
+		}
+		if(object == null || getClass() != object.getClass()) {
+			return false;
+		}
+
+		Loans loan = (Loans) object;
+
+		return this.getLoanId() == loan.getLoanId()
+				&& this.getRegionCountry().equals(loan.getRegionCountry())
+				&& this.getLoanTheme().equals(loan.getLoanTheme());
+	}
 
 }

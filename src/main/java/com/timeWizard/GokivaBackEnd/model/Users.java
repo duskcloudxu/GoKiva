@@ -44,4 +44,28 @@ public class Users {
 		Password = password;
 	}
 
+	@Override
+	public int hashCode() {
+		return this.getUserName().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object object){
+		if(this == object) {
+			return true;
+		}
+		if(object == null || getClass() != object.getClass()) {
+			return false;
+		}
+
+		Users user = (Users) object;
+
+		return this.getUserName().equals(user.getUserName())
+				&& this.getFirstName().equals(user.getFirstName())
+				&& this.getLastName().equals(user.getLastName());
+	}
+
+
+
+
 }
