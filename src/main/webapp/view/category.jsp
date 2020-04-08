@@ -39,9 +39,46 @@
                     </ul>
                 </div>
             </nav>
-<div>
-            categories...
+        <div class="row mt-4">
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="images/startup.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Startup</h5>
+                        <a href="#" class="btn btn-primary">View Records</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="images/tuition.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Higher Education</h5>
+                        <a href="#" class="btn btn-primary">View Records</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="images/agriculture.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Agriculture</h5>
+                        <a href="#" class="btn btn-primary">View Records</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="images/water.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Water</h5>
+                        <a href="#" class="btn btn-primary">View Records</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     </div>
 </div>
 </body>
