@@ -152,13 +152,12 @@ protected SecureRandom random;
 
 	public String hashPassword(String userName, String password)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
+		// from: https://stackoverflow.com/questions/2860943/how-can-i-hash-a-password-in-java
 		byte[] salt = userName.getBytes();
 		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt,  65536, 128);
 		SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		byte[] hash = f.generateSecret(spec).getEncoded();
 		Base64.Encoder enc = Base64.getEncoder();
-		System.out.printf("salt: %s%n", enc.encodeToString(salt));
-		System.out.printf("hash: %s%n", enc.encodeToString(hash));
 		return enc.encodeToString(hash);
 	}
 

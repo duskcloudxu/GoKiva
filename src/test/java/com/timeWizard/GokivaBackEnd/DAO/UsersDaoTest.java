@@ -74,5 +74,6 @@ class UsersDaoTest {
     assertEquals("lastName1", usersDao.getUsersByUserName("username1").getLastName());
 
 
+
   }
 }
