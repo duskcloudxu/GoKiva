@@ -33,11 +33,10 @@ class UsersDaoTest {
     Users user1_DB = usersDao.create(user1);
     Users user2b_db = usersDao.create(user2);
     assertEquals(usersDao.getUsersByUserName(user1.getUserName()).getUserName(), user1.getUserName());
-
   }
 
   @Test
-  void delete() throws SQLException,  NoSuchAlgorithmException, InvalidKeySpecException, NullPointerException, SQLException{
+  void delete() throws NoSuchAlgorithmException, InvalidKeySpecException, NullPointerException, SQLException{
     usersDao = UsersDao.getInstance();
     hashPassword = usersDao.hashPassword("username2", "password");
     System.err.println(hashPassword);
@@ -46,15 +45,34 @@ class UsersDaoTest {
     usersDao.delete(user1);
     System.err.println(user1.getUserName());
     assertNull(usersDao.getUsersByUserName(user1.getUserName()));
+
   }
 
 
   @Test
-  void hashPassword() {
+  void hashPassword() throws NoSuchAlgorithmException, InvalidKeySpecException, NullPointerException, SQLException {
+    usersDao = UsersDao.getInstance();
+    String testPassword = usersDao.hashPassword("username3", "password");
+    Users user3= new Users("username3", testPassword, "firstName", "lastName");
+    usersDao.createAccount("username3", "password", "password",
+        "firstName", "lastName");
+    assertEquals(testPassword, usersDao.getUsersByUserName(user3.getUserName()).getPassword());
+
+
+
   }
 
   @Test
-  void createAccount() {
+  void createAccount() throws NoSuchAlgorithmException, InvalidKeySpecException, NullPointerException, SQLException {
+    usersDao = UsersDao.getInstance();
+    String hashed = usersDao.hashPassword("username1", "password1");
+    usersDao.createAccount("username1", "password1", "password1",
+        "firstName1", "lastName1");
+    assertEquals("username1", usersDao.getUsersByUserName("username1").getUserName());
+    assertEquals(hashed, usersDao.getUsersByUserName("username1").getPassword());
+    assertEquals("firstName1", usersDao.getUsersByUserName("username1").getFirstName());
+    assertEquals("lastName1", usersDao.getUsersByUserName("username1").getLastName());
+
 
   }
 }

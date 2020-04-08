@@ -55,8 +55,6 @@ protected SecureRandom random;
 			insertStmt.setString(4, user.getLastName());
 
 
-
-
 			insertStmt.executeUpdate();
 
 
@@ -155,7 +153,6 @@ protected SecureRandom random;
 	public String hashPassword(String userName, String password)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		byte[] salt = userName.getBytes();
-		random.nextBytes(salt);
 		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt,  65536, 128);
 		SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		byte[] hash = f.generateSecret(spec).getEncoded();
