@@ -22,13 +22,11 @@ import  com.timeWizard.GokivaBackEnd.model.*;
 
 public class UsersDao {
 protected ConnectionManager connectionManager;
-protected SecureRandom random;
 
 	// Single pattern: instantiation is limited to one object.
 	private static UsersDao instance = null;
 	protected UsersDao() {
 		connectionManager = new ConnectionManager();
-		random = new SecureRandom();
 	}
 	public static UsersDao getInstance() {
 		if(instance == null) {
