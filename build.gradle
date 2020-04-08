@@ -50,6 +50,12 @@ dependencies {
 	compile group: 'org.apache.tomcat', name: 'tomcat-jasper', version: '9.0.30'
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
 	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
+	// https://mvnrepository.com/artifact/taglibs/standard
+	compile group: 'taglibs', name: 'standard', version: '1.1.2'
+	// https://mvnrepository.com/artifact/javax.servlet/jstl
+	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+
+
 
 
 
