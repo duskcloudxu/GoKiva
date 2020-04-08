@@ -7,7 +7,6 @@ public class Users {
 	protected String LastName;
 
 	public Users(String userName, String password, String firstName, String lastName) {
-		super();
 		UserName = userName;
 		FirstName = firstName;
 		LastName = lastName;

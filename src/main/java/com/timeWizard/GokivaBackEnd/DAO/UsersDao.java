@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.ArrayList;
 import java.util.Base64;
 
 
@@ -21,8 +22,7 @@ import  com.timeWizard.GokivaBackEnd.model.*;
 
 public class UsersDao {
 protected ConnectionManager connectionManager;
-private final SecureRandom random;
-
+protected SecureRandom random;
 
 	// Single pattern: instantiation is limited to one object.
 	private static UsersDao instance = null;
@@ -42,7 +42,7 @@ private final SecureRandom random;
 	 * This runs a INSERT statement.
 	 */
 	public Users create(Users user) throws SQLException {
-		String insertPerson = "INSERT INTO Users(UserName,Password, FirstName, LastName) VALUES(?,?,?,?);";
+		String insertPerson = "INSERT INTO Users(UserName,Password,FirstName,LastName) VALUES(?,?,?,?);";
 		Connection connection = null;
 		PreparedStatement insertStmt = null;
 		try {
@@ -107,7 +107,7 @@ private final SecureRandom random;
 	public Users getUsersByUserName(String userName) throws SQLException {
 		//Users users = new Users();
 		String selectUsers =
-			"SELECT UserName FROM Users WHERE UserName=?;";
+			"SELECT * FROM Users WHERE UserName=?;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -126,7 +126,6 @@ private final SecureRandom random;
 
 				Users user = new Users(resultUserName, password, firstName, lastName);
 				return user;
-				//users.add(user);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -145,28 +144,23 @@ private final SecureRandom random;
 		return null;
 	}
 
-	public boolean authenticatePassword(String username, String password) throws SQLException {
+	public boolean authenticatePassword(String username, String password) throws SQLException,
+			NoSuchAlgorithmException, InvalidKeySpecException {
 		Users user = getUsersByUserName(username);
-		return password == user.getPassword();
+		String hashed = hashPassword(username, password);
+		return hashed == user.getPassword();
 
 	}
 
-	public String hashPassword(String password)
+	public String hashPassword(String userName, String password)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
-//		byte[] salt = new byte[16];
-//		random.nextBytes(salt);
-//		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt,  65536, 128);
-//		SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-//		byte[] hash = f.generateSecret(spec).getEncoded();
-//		Base64.Encoder enc = Base64.getEncoder();
-//		System.out.printf("salt: %s%n", enc.encodeToString(salt));
-//		System.out.printf("hash: %s%n", enc.encodeToString(hash));
-//		return salt + "$" + hash;
-
-		KeySpec spec = new PBEKeySpec(password.toCharArray());
+		byte[] salt = userName.getBytes();
+		random.nextBytes(salt);
+		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt,  65536, 128);
 		SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		byte[] hash = f.generateSecret(spec).getEncoded();
 		Base64.Encoder enc = Base64.getEncoder();
+		System.out.printf("salt: %s%n", enc.encodeToString(salt));
 		System.out.printf("hash: %s%n", enc.encodeToString(hash));
 		return enc.encodeToString(hash);
 	}
@@ -174,7 +168,7 @@ private final SecureRandom random;
 	public Users createAccount(String userName, String password, String retypedPassword, String firstName, String lastName)
 			throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException{
 		if (password == retypedPassword) {
-			String hashed = hashPassword(password);
+			String hashed = hashPassword(userName, password);
 
 			return create(new Users(userName, hashed, firstName, lastName));
 		} else {
