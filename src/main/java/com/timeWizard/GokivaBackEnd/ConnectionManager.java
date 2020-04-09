@@ -2,7 +2,9 @@ package com.timeWizard.GokivaBackEnd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 /**
@@ -82,4 +84,22 @@ public class ConnectionManager {
 			throw e;
 		}
 	}
+	public ResultSet execQuery(String query){
+		try{
+			Statement stmt=getConnection().createStatement();
+			return stmt.executeQuery(query);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+    public void execQueryInsert(String query){
+        try{
+            Statement stmt=getConnection().createStatement();
+            stmt.executeQuery(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
