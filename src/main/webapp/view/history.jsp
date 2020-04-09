@@ -1,5 +1,7 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:useBean id="historyManager" class="com.timeWizard.GokivaBackEnd.intermediate.HistoryManager"/>
 <html>
 <head>
     <title>Search History</title>
@@ -55,17 +57,24 @@
                             <th scope="col">UserName</th>
                             <th scope="col">LoanId</th>
                             <th scope="col">Time Visited</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Country</th>
+                            <th scope="col">PartnerId</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:set var="list" scope="session"
-                               value="${searchManager.getHistoryInPage(historyObj)}"/>
+                               value="${historyManager.getHistoryInPage(historyObj)}"/>
                         <c:forEach items="${list}" var="item">
                             <tr>
                                 <td>${item.getVisitId()}</td>
                                 <td>${item.getUserName()}</td>
                                 <td>${item.getLoanId()}</td>
                                 <td>${item.getTimeVisited()}</td>
+                                <td>${item.getCategory()}</td>
+                                <td>${item.getCountry()}</td>
+                                <td>${item.getPartnerId()}</td>
+
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -76,7 +85,10 @@
                         <input type="hidden" value="${param.VisitId}" name="VisitId">
                         <input type="hidden" value="${param.UserName}" name="UserName">
                         <input type="hidden" value="${param.LoanId}" name="LoanId">
-                        <input type="hidden" value="${param.TimeVisited}" name="TimeVisited">
+                        <input type="hidden" value="${param.Timevisited}" name="TimeVisited">
+                        <input type="hidden" value="${param.Category}" name="Category">
+                        <input type="hidden" value="${param.Country}" name="Country">
+                        <input type="hidden" value="${param.PartnerId}" name="PartnerId">
                         <input type="hidden" value="${page-1}" name="page">
                         <button type="submit" class="btn  btn-light ml-auto mr-4 ">prev</button>
                     </form>
@@ -84,7 +96,10 @@
                         <input type="hidden" value="${param.VisitId}" name="VisitId">
                         <input type="hidden" value="${param.UserName}" name="UserName">
                         <input type="hidden" value="${param.LoanId}" name="LoanId">
-                        <input type="hidden" value="${param.TimeVisited}" name="TimeVisited">
+                        <input type="hidden" value="${param.Timevisited}" name="TimeVisited">
+                        <input type="hidden" value="${param.Category}" name="Category">
+                        <input type="hidden" value="${param.Country}" name="Country">
+                        <input type="hidden" value="${param.PartnerId}" name="PartnerId">
                         <input type="hidden" value="${page+1}" name="page">
                         <button type="submit" class="btn  btn-light ">next</button>
                     </form>

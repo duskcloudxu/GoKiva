@@ -93,4 +93,13 @@ public class ConnectionManager {
 		}
 		return null;
 	}
+
+    public void execQueryInsert(String query){
+        try{
+            Statement stmt=getConnection().createStatement();
+            stmt.executeQuery(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

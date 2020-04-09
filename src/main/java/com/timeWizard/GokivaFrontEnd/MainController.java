@@ -117,12 +117,32 @@ public class MainController {
   }
 
   @RequestMapping(method = RequestMethod.GET, value = "/history")
-  public ModelAndView history(HttpSession session) {
+  public ModelAndView history(@RequestParam Map<String, String> allRequestParams, HttpSession session) {
+
     if(session.getAttribute("userName")==null){
       return new ModelAndView("error","errorInfo","Please Login First");
     }
+    allRequestParams.put("userName", (String) session.getAttribute("userName"));
+    int page = Integer.parseInt(allRequestParams.getOrDefault("page", "0"));
+    if (page < 0) {
+      page = 0;
+    }
+    Map<String, String> copyParams = new HashMap<>(allRequestParams);
+    List<String> toBeDeleted = new ArrayList<>();
+    for (String key : copyParams.keySet()) {
+      String val = copyParams.get(key);
+      if (val.length() == 0) {
+        toBeDeleted.add(key);
+      }
+    }
+    for (String key : toBeDeleted) {
+      allRequestParams.remove(key);
+    }
     ModelAndView mav = new ModelAndView("history");
+    mav.addObject("page", page);
+    mav.addObject("historyObj", allRequestParams);
     return mav;
+
   }
 
   @RequestMapping(method = RequestMethod.GET, value = "/search")
@@ -130,6 +150,7 @@ public class MainController {
     if(session.getAttribute("userName")==null){
       return new ModelAndView("error","errorInfo","Please Login First");
     }
+    allRequestParams.put("userName", (String) session.getAttribute("userName"));
     int page = Integer.parseInt(allRequestParams.getOrDefault("page", "0"));
     if (page < 0) {
       page = 0;
