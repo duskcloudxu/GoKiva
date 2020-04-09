@@ -39,8 +39,51 @@
                     </ul>
                 </div>
             </nav>
-<div>
-            search history
+        <div class = "row mt-4">
+            <div class="col-12">
+                <div class="tableContainer">
+                    <table class="table table-bordered rounded">
+                        <thead>
+                        <tr>
+                            <th scope="col">VisitId</th>
+                            <th scope="col">UserName</th>
+                            <th scope="col">LoanId</th>
+                            <th scope="col">Time Visited</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:set var="list" scope="session"
+                               value="${searchManager.getHistoryInPage(historyObj)}"/>
+                        <c:forEach items="${list}" var="item">
+                            <tr>
+                                <td>${item.getVisitId()}</td>
+                                <td>${item.getUserName()}</td>
+                                <td>${item.getLoanId()}</td>
+                                <td>${item.getTimeVisited()}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="buttonGrp row mt-3">
+                    <form action="" class="ml-auto mr-4 ">
+                        <input type="hidden" value="${param.VisitId}" name="VisitId">
+                        <input type="hidden" value="${param.UserName}" name="UserName">
+                        <input type="hidden" value="${param.LoanId}" name="LoanId">
+                        <input type="hidden" value="${param.TimeVisited}" name="TimeVisited">
+                        <input type="hidden" value="${page-1}" name="page">
+                        <button type="submit" class="btn  btn-light ml-auto mr-4 ">prev</button>
+                    </form>
+                    <form action="">
+                        <input type="hidden" value="${param.VisitId}" name="VisitId">
+                        <input type="hidden" value="${param.UserName}" name="UserName">
+                        <input type="hidden" value="${param.LoanId}" name="LoanId">
+                        <input type="hidden" value="${param.TimeVisited}" name="TimeVisited">
+                        <input type="hidden" value="${page+1}" name="page">
+                        <button type="submit" class="btn  btn-light ">next</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
