@@ -68,8 +68,7 @@ public class Search {
 			Search search = (Search) object;
 
 			return this.getUser().equals(search.getUser())
-					&& this.getLoan().equals(search.getLoan())
-					&& this.getVisitId() == search.getVisitId();
+					&& this.getLoan().equals(search.getLoan());
 		}
 
 

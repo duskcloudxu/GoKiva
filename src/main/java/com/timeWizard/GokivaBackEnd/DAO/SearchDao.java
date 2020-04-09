@@ -178,8 +178,8 @@ public class SearchDao {
 		return null;
 	}
 
-	public Search updateTimesVisited(int timesVisited, Users user, Loans loan) throws SQLException {
-			String updateSearch = "UPDATE Search SET TimesVisited=? WHERE Users=? and LoanId=?;";
+	public void updateTimesVisited(int timesVisited, Users user, Loans loan) throws SQLException {
+			String updateSearch = "UPDATE Search SET TimesVisited=? WHERE UserName=? and LoanId=?;";
 			Connection connection = null;
 			PreparedStatement updateStmt = null;
 
@@ -191,7 +191,7 @@ public class SearchDao {
 				updateStmt.setInt(3, loan.getLoanId());
 				updateStmt.executeUpdate();
 
-				return new Search(timesVisited, user, loan);
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw e;
@@ -208,25 +208,23 @@ public class SearchDao {
 
 	public HashMap<Loans, Integer> saveSearchResults(Users user, ArrayList<Loans> loans) throws SQLException {
 		HashMap<Loans, Integer> previousLoans = getSearchByUserName(user.getUserName());
+
 		for (Loans loan : loans) {
-			int increment = 0;
+			int increment = 1;
 			if (previousLoans.containsKey(loan)) {
 
-
-				increment += previousLoans.get(loan);
+				increment += previousLoans.get(loan) ;
 				previousLoans.put(loan, increment);
 				updateTimesVisited(increment, user, loan);
 
+
+
 			} else {
-				create(new Search(0, user, loan));
+				create(new Search(1, user, loan));
 			}
 		}
 
 		return getSearchByUserName(user.getUserName());
 	}
-
-
-
-
 }
 

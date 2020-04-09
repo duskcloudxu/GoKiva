@@ -111,9 +111,7 @@ public class Loans {
 
 		Loans loan = (Loans) object;
 
-		return this.getLoanId() == loan.getLoanId()
-				&& this.getRegionCountry().equals(loan.getRegionCountry())
-				&& this.getLoanTheme().equals(loan.getLoanTheme());
+		return this.getLoanId() == loan.getLoanId();
 	}
 
 }

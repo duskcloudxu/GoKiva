@@ -26,6 +26,7 @@ class SearchDaoTest {
   Loans loan2;
 
   ArrayList<Loans>  loans1;
+  ArrayList<Loans>  loans2;
 
 
   @BeforeEach
@@ -35,11 +36,17 @@ class SearchDaoTest {
     loansDao = LoansDao.getInstance();
     searchDao = SearchDao.getInstance();
     user1= new Users("username1", "password", "firstName", "lastName");
+    user2= new Users("username2", "password", "firstName", "lastName");
+
     loan1 =  loansDao.getLoansById(100);
     loan2 = loansDao.getLoansById(230);
+    search1 = new Search(1, user1, loan1);
 
     loans1 = new ArrayList<>();
     loans1.add(loan1);
+    loans2 = new ArrayList<>();
+    loans2.add(loan2);
+
 
 
 
@@ -49,7 +56,6 @@ class SearchDaoTest {
   @Test
   void saveSearchResultsTest() throws SQLException {
     HashMap<Loans, Integer> search = searchDao.saveSearchResults(user1, loans1);
-
     assertEquals(searchDao.getSearchByUserName(user1.getUserName()), search);
 
   }
@@ -58,22 +64,15 @@ class SearchDaoTest {
   void delete() throws SQLException {
     searchDao.delete(search1);
     assertNull(searchDao.getSearchByLoanId(100));
-    assertEquals(new HashMap<Loans, Integer>(),searchDao.getSearchByUserName(user1.getUserName()));
 
 
   }
 
   @Test
   void getSearchByUserName() throws SQLException {
-    search2 = searchDao.create(new Search(0, user1, loansDao.getLoansById(230)));
-
+    HashMap<Loans, Integer> search = searchDao.saveSearchResults(user2, loans2);
     HashMap<Loans, Integer> searchTest = new HashMap<>();
-    searchTest.put(search1.getLoan(), search1.getTimesVisited());
-    searchTest.put(search2.getLoan(), search2.getTimesVisited());
-
-
-    assertTrue(searchDao.getSearchByUserName(user1.getUserName()).containsKey(search1.getLoan()));
-
+    assertEquals(search, searchDao.getSearchByUserName(user2.getUserName()));
 
 
   }
