@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -27,7 +28,7 @@
                         <a class="nav-link text-white font-weight-bold" href="category">Category</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white font-weight-bold" href="#">Regions</a>
+                        <a class="nav-link text-white font-weight-bold" href="/dataVisualization">Visualization</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link text-white font-weight-bold" href="history">History</a>
@@ -38,8 +39,12 @@
                 </ul>
                 <ul class="navbar-nav ml-4">
                     <li class="nav-item text-white mr-4">
-                        <a class="nav-link text-white font-weight-bold" href="userSignIn">Sign
-                            in</a>
+                        <div class="nav-link text-white ">
+                            Hi, <c:out value="${sessionScope.userName}"/>
+                        </div>
+                    </li>
+                    <li class="nav-item text-white mr-4">
+                        <a class="nav-link text-white font-weight-bold" href="userSignOut">Sign out</a>
                     </li>
                 </ul>
             </div>
@@ -47,16 +52,21 @@
         <div class="row m-4">
             <div class="col-3   ">
                 <div class="row">
-                    <form class="p-3 container border border-success rounded" action="" method="get">
+                    <form class="p-3 container border border-success rounded" action=""
+                          method="get">
                         <label class="font-weight-bold">X-AXIS</label>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="radio" class="custom-control-input" name="XAxis"
+                                ${param.XAxis==null?"checked":""}
+                                ${param.XAxis.equals("Country")?"checked":""}
                                        value="Country" id="Country">
                                 <label class="custom-control-label" for="Country">Country</label>
                             </div>
                             <div class="custom-control custom-checkbox">
                                 <input type="radio" class="custom-control-input" name="XAxis"
+
+                                ${param.XAxis.equals("Theme")?"checked":""}
                                        value="Theme" id="Theme">
                                 <label class="custom-control-label" for="Theme">Theme</label>
                             </div>
@@ -65,13 +75,16 @@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="radio" class="custom-control-input" name="YAxis"
-                                       value="LoanNum" id="LoanNum">
+                                ${param.YAxis==null?"checked":""}
+                                ${param.YAxis.equals("Loan")?"checked":""}
+                                       value="Loan" id="LoanNum">
                                 <label class="custom-control-label" for="LoanNum">Num of
                                     Loans</label>
                             </div>
                             <div class="custom-control custom-checkbox">
                                 <input type="radio" class="custom-control-input" name="YAxis"
-                                       value="TotalAmt" id="TotalAmt">
+                                ${param.YAxis.equals("Dollar")?"checked":""}
+                                       value="Dollar" id="TotalAmt">
                                 <label class="custom-control-label" for="TotalAmt">Dollar
                                     Amount</label>
                             </div>
@@ -108,26 +121,76 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts-en.common.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts-en.common.min.js"></script>
 <script type="text/javascript">
+
+
   var dom = document.getElementById("chartContainer");
   var myChart = echarts.init(dom);
   var app = {};
   option = null;
   option = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+        label: {
+          show: true
+        }
+      }
+    },
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: [
+        <c:forEach items="${list}" var="item" varStatus="status">
+        "${item.XAxis}"
+        <c:if test="${!status.last}">
+        ,
+        </c:if>
+        </c:forEach>
+      ]
     },
     yAxis: {
       type: 'value'
     },
     series: [{
-      data: [120, 200, 150, 80, 70, 110, 130],
+      data: [
+        <c:forEach items="${list}" var="item" varStatus="status">
+        ${item.YAxis}
+        <c:if test="${!status.last}">
+        ,
+        </c:if>
+        </c:forEach>
+      ],
       type: 'bar',
       color: "#639a67",
       backgroundStyle: {
         color: 'rgba(220, 220, 220, 0.8)'
       }
-    }]
+    }],
+    dataZoom: [
+      {
+        type: 'slider',
+        show: true,
+        start: 0,
+        end: 10,
+        handleSize: 10
+      },
+      {
+        type: 'inside',
+        start: 0,
+        end: 100
+      },
+      {
+        type: 'slider',
+        show: true,
+        yAxisIndex: 0,
+        filterMode: 'empty',
+        width: 12,
+        height: '70%',
+        handleSize: 8,
+        showDataShadow: false,
+        left: '93%'
+      }
+    ]
   };
   ;
   if (option && typeof option === "object") {

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -23,8 +24,8 @@
                             <a class="nav-link text-white font-weight-bold" href="category">Category</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="#">Regions</a>
-                        </li>
+                                <a class="nav-link text-white font-weight-bold" href="/dataVisualization">Visualization</a>
+                            </li>
                         <li class="nav-item ">
                             <a class="nav-link text-white font-weight-bold" href="history">History</a>
                         </li>
@@ -34,9 +35,15 @@
                     </ul>
                     <ul class="navbar-nav ml-4">
                         <li class="nav-item text-white mr-4">
-                            <a class="nav-link text-white font-weight-bold" href="userSignIn">Sign in</a>
+                            <div class="nav-link text-white ">
+                                Hi, <c:out value="${sessionScope.userName}"/>
+                            </div>
+                        </li>
+                        <li class="nav-item text-white mr-4">
+                            <a class="nav-link text-white font-weight-bold" href="userSignOut">Sign out</a>
                         </li>
                     </ul>
+
                 </div>
             </nav>
         <div class="row mt-4">

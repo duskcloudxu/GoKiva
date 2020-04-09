@@ -18,157 +18,160 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-import  com.timeWizard.GokivaBackEnd.model.*;
+import com.timeWizard.GokivaBackEnd.model.*;
 
 public class UsersDao {
-protected ConnectionManager connectionManager;
 
-	// Single pattern: instantiation is limited to one object.
-	private static UsersDao instance = null;
-	protected UsersDao() {
-		connectionManager = new ConnectionManager();
-	}
-	public static UsersDao getInstance() {
-		if(instance == null) {
-			instance = new UsersDao();
-		}
-		return instance;
-	}
+  protected ConnectionManager connectionManager;
 
-	/**
-	 * Save the Users instance by storing it in your MySQL instance.
-	 * This runs a INSERT statement.
-	 */
-	public Users create(Users user) throws SQLException {
-		String insertPerson = "INSERT INTO Users(UserName,Password,FirstName,LastName) VALUES(?,?,?,?);";
-		Connection connection = null;
-		PreparedStatement insertStmt = null;
-		try {
-			connection = connectionManager.getConnection();
-			insertStmt = connection.prepareStatement(insertPerson);
+  // Single pattern: instantiation is limited to one object.
+  private static UsersDao instance = null;
 
-			insertStmt.setString(1, user.getUserName());
-			insertStmt.setString(2, user.getPassword());
-			insertStmt.setString(3, user.getFirstName());
-			insertStmt.setString(4, user.getLastName());
+  protected UsersDao() {
+    connectionManager = new ConnectionManager();
+  }
 
+  public static UsersDao getInstance() {
+    if (instance == null) {
+      instance = new UsersDao();
+    }
+    return instance;
+  }
 
-			insertStmt.executeUpdate();
+  /**
+   * Save the Users instance by storing it in your MySQL instance. This runs a INSERT statement.
+   */
+  public Users create(Users user) throws SQLException {
+    String insertPerson = "INSERT INTO Users(UserName,Password,FirstName,LastName) VALUES(?,?,?,?);";
+    Connection connection = null;
+    PreparedStatement insertStmt = null;
+    try {
+      connection = connectionManager.getConnection();
+      insertStmt = connection.prepareStatement(insertPerson);
 
+      insertStmt.setString(1, user.getUserName());
+      insertStmt.setString(2, user.getPassword());
+      insertStmt.setString(3, user.getFirstName());
+      insertStmt.setString(4, user.getLastName());
 
-			return user;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if(connection != null) {
-				connection.close();
-			}
-			if(insertStmt != null) {
-				insertStmt.close();
-			}
-		}
-	}
+      insertStmt.executeUpdate();
 
-
-	public Users delete(Users user) throws SQLException {
-		String deletePerson = "DELETE FROM Users WHERE UserName=?;";
-		Connection connection = null;
-		PreparedStatement deleteStmt = null;
-		try {
-			connection = connectionManager.getConnection();
-			deleteStmt = connection.prepareStatement(deletePerson);
-			deleteStmt.setString(1, user.getUserName());
-			deleteStmt.executeUpdate();
+      return user;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+      if (connection != null) {
+        connection.close();
+      }
+      if (insertStmt != null) {
+        insertStmt.close();
+      }
+    }
+  }
 
 
-			return null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if(connection != null) {
-				connection.close();
-			}
-			if(deleteStmt != null) {
-				deleteStmt.close();
-			}
-		}
-	}
+  public Users delete(Users user) throws SQLException {
+    String deletePerson = "DELETE FROM Users WHERE UserName=?;";
+    Connection connection = null;
+    PreparedStatement deleteStmt = null;
+    try {
+      connection = connectionManager.getConnection();
+      deleteStmt = connection.prepareStatement(deletePerson);
+      deleteStmt.setString(1, user.getUserName());
+      deleteStmt.executeUpdate();
 
-	/**
-	 * Get the matching Users records by fetching from your MySQL instance.
-	 * This runs a SELECT statement and returns a list of matching Users.
-	 */
-	public Users getUsersByUserName(String userName) throws SQLException {
-		//Users users = new Users();
-		String selectUsers =
-			"SELECT * FROM Users WHERE UserName=?;";
-		Connection connection = null;
-		PreparedStatement selectStmt = null;
-		ResultSet results = null;
-		try {
-			connection = connectionManager.getConnection();
-			selectStmt = connection.prepareStatement(selectUsers);
-			selectStmt.setString(1, userName);
-			results = selectStmt.executeQuery();
-			if(results.next()) {
-				String resultUserName = results.getString("UserName");
-				String password = results.getString("Password");
-				String firstName = results.getString("FirstName");
-				String lastName = results.getString("LastName");
+      return null;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+      if (connection != null) {
+        connection.close();
+      }
+      if (deleteStmt != null) {
+        deleteStmt.close();
+      }
+    }
+  }
 
+  /**
+   * Get the matching Users records by fetching from your MySQL instance. This runs a SELECT
+   * statement and returns a list of matching Users.
+   */
+  public Users getUsersByUserName(String userName) throws SQLException {
+    //Users users = new Users();
+    String selectUsers =
+        "SELECT * FROM Users WHERE UserName=?;";
+    Connection connection = null;
+    PreparedStatement selectStmt = null;
+    ResultSet results = null;
+    try {
+      connection = connectionManager.getConnection();
+      selectStmt = connection.prepareStatement(selectUsers);
+      selectStmt.setString(1, userName);
+      results = selectStmt.executeQuery();
+      if (results.next()) {
+        String resultUserName = results.getString("UserName");
+        String password = results.getString("Password");
+        String firstName = results.getString("FirstName");
+        String lastName = results.getString("LastName");
 
+        Users user = new Users(resultUserName, password, firstName, lastName);
+        return user;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+      if (connection != null) {
+        connection.close();
+      }
+      if (selectStmt != null) {
+        selectStmt.close();
+      }
+      if (results != null) {
+        results.close();
+      }
+    }
+    return null;
+  }
 
-				Users user = new Users(resultUserName, password, firstName, lastName);
-				return user;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if(connection != null) {
-				connection.close();
-			}
-			if(selectStmt != null) {
-				selectStmt.close();
-			}
-			if(results != null) {
-				results.close();
-			}
-		}
-		return null;
-	}
-
-	public boolean authenticatePassword(String username, String password) throws SQLException,
-			NoSuchAlgorithmException, InvalidKeySpecException {
-		Users user = getUsersByUserName(username);
-		String hashed = hashPassword(username, password);
-		return hashed == user.getPassword();
-
-	}
-
-	public String hashPassword(String userName, String password)
-			throws NoSuchAlgorithmException, InvalidKeySpecException {
-		// from: https://stackoverflow.com/questions/2860943/how-can-i-hash-a-password-in-java
-		byte[] salt = userName.getBytes();
-		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt,  65536, 128);
-		SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-		byte[] hash = f.generateSecret(spec).getEncoded();
-		Base64.Encoder enc = Base64.getEncoder();
-		return enc.encodeToString(hash);
-	}
-
-	public Users createAccount(String userName, String password, String retypedPassword, String firstName, String lastName)
-			throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException{
-		if (password == retypedPassword) {
-			String hashed = hashPassword(userName, password);
-
-			return create(new Users(userName, hashed, firstName, lastName));
+  public boolean isUserExist(String userName) throws SQLException {
+    ConnectionManager cn = new ConnectionManager();
+    ResultSet rs = cn.execQuery("SELECT * FROM Users WHERE userName='" + userName + "'");
+		if (rs.next()) {
+			return true;
 		} else {
-			System.err.println("Passwords do not match.");
-			return null;
+			return false;
 		}
-	}
+  }
+
+  public boolean authenticatePassword(String username, String password) throws SQLException,
+      NoSuchAlgorithmException, InvalidKeySpecException {
+    Users user = getUsersByUserName(username);
+    if(user==null)return false;
+    String hashed = hashPassword(username, password);
+    return user.getPassword().equals(hashed);
+
+  }
+
+  public String hashPassword(String userName, String password)
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
+    // from: https://stackoverflow.com/questions/2860943/how-can-i-hash-a-password-in-java
+    byte[] salt = userName.getBytes();
+    KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+    SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+    byte[] hash = f.generateSecret(spec).getEncoded();
+    Base64.Encoder enc = Base64.getEncoder();
+    return enc.encodeToString(hash);
+  }
+
+  public Users createAccount(String userName, String password, String retypedPassword,
+      String firstName, String lastName)
+      throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+    String hashed = hashPassword(userName, password);
+    return create(new Users(userName, hashed, firstName, lastName));
+  }
 
 }

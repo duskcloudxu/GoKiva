@@ -17,11 +17,12 @@ public class SearchManager {
     String LoanId = searchObj.getOrDefault("LoanId", null);
     String Country = searchObj.getOrDefault("Country", null);
     String PartnerId = searchObj.getOrDefault("PartnerId", null);
-    String Tag = searchObj.getOrDefault("Tag", null);
+    String Category = searchObj.getOrDefault("Category", null);
+    String SortBy=searchObj.getOrDefault("SortBy",null);
     if (page < 0) {
       page = 0;
     }
-    String queryStr = "SELECT * FROM Loans ";
+    String queryStr = "SELECT * FROM Loans NATURAL JOIN LoanThemes ";
     List<String> queryClauses = new ArrayList<>();
     if (LoanId != null) {
       queryClauses.add("LoanId=" + LoanId);
@@ -31,6 +32,9 @@ public class SearchManager {
     }
     if (PartnerId != null) {
       queryClauses.add("PartnerId LIKE " + "'%" + PartnerId + "%'");
+    }
+    if (Category != null) {
+      queryClauses.add("Theme LIKE " + "'%" + Category + "%'");
     }
     if (queryClauses.size() != 0) {
       queryStr += "WHERE ";
@@ -43,6 +47,7 @@ public class SearchManager {
         queryStr += queryClauses.get(i);
       }
     }
+    if(SortBy!=null)queryStr+=" ORDER BY "+SortBy;
     queryStr += " LIMIT 50 OFFSET " + page * 50;
     ResultSet rs = cm.execQuery(queryStr);
     while (rs.next()) {

@@ -23,8 +23,8 @@
                             <a class="nav-link text-white font-weight-bold" href="category">Category</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="#">Regions</a>
-                        </li>
+                                <a class="nav-link text-white font-weight-bold" href="/dataVisualization">Visualization</a>
+                            </li>
                         <li class="nav-item ">
                             <a class="nav-link text-white font-weight-bold" href="history">History</a>
                         </li>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.timeWizard.GokivaBackEnd.DAO.BorrowersDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -21,25 +22,39 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse rounded-bottom navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto ml-4">
-                        <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="category">Category</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="#">Regions</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white font-weight-bold" href="history">History</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-white font-weight-bold" href="search">Search</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ml-4">
-                        <li class="nav-item text-white mr-4">
-                            <a class="nav-link text-white font-weight-bold" href="userSignIn">Sign in</a>
-                        </li>
-                    </ul>
+                    <c:if test="${sessionScope.userName != null}">
+                        <ul class="navbar-nav mr-auto ml-4">
+                            <li class="nav-item">
+                                <a class="nav-link text-white font-weight-bold" href="category">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white font-weight-bold" href="/dataVisualization">Visualization</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-white font-weight-bold" href="history">History</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-white font-weight-bold" href="search">Search</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav ml-4">
+                            <li class="nav-item text-white mr-4">
+                                <div class="nav-link text-white ">
+                                    Hi, <c:out value="${sessionScope.userName}"/>
+                                </div>
+                            </li>
+                            <li class="nav-item text-white mr-4">
+                                <a class="nav-link text-white font-weight-bold" href="userSignOut">Sign out</a>
+                            </li>
+                        </ul>
+                    </c:if>
+                    <c:if test="${sessionScope.userName==null}">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item text-white mr-4">
+                                <a class="nav-link text-white font-weight-bold" href="userSignIn">Sign in</a>
+                            </li>
+                        </ul>
+                    </c:if>
                 </div>
             </nav>
         </div>

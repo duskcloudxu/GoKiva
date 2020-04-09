@@ -15,6 +15,7 @@ public class FrontEndLoanModel {
   private String RegionCountry;
   private String PartnerId;
   private String ThemeId;
+  private String Theme;
   private FrontEndLoanModel(){
   }
 
@@ -56,6 +57,10 @@ public class FrontEndLoanModel {
 
   public String getThemeId() {
     return ThemeId;
+  }
+
+  public String getTheme() {
+    return Theme;
   }
 
   public static FrontEndLoanModel match(ResultSet rs) throws SQLException, IllegalAccessException {
