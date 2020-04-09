@@ -52,7 +52,7 @@
                     <img class="card-img-top" src="images/startup.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Startup</h5>
-                        <a href="#" class="btn btn-primary">View Records</a>
+                        <a href="/search?LoanId=&Country=&PartnerId=&Category=Startup&SortBy=LoanId" class="btn btn-primary">View Records</a>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                     <img class="card-img-top" src="images/tuition.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Higher Education</h5>
-                        <a href="#" class="btn btn-primary">View Records</a>
+                        <a href="/search?LoanId=&Country=&PartnerId=&Category=Higher+Education&SortBy=LoanId" class="btn btn-primary">View Records</a>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                     <img class="card-img-top" src="images/agriculture.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Agriculture</h5>
-                        <a href="#" class="btn btn-primary">View Records</a>
+                        <a href="/search?LoanId=&Country=&PartnerId=&Category=Agriculture&SortBy=LoanId" class="btn btn-primary">View Records</a>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                     <img class="card-img-top" src="images/water.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Water</h5>
-                        <a href="#" class="btn btn-primary">View Records</a>
+                        <a href="/search?LoanId=&Country=&PartnerId=&Category=Water&SortBy=LoanId" class="btn btn-primary">View Records</a>
                     </div>
                 </div>
             </div>
