@@ -97,7 +97,7 @@ public class ConnectionManager {
     public void execQueryInsert(String query){
         try{
             Statement stmt=getConnection().createStatement();
-            stmt.executeQuery(query);
+            stmt.executeUpdate(query);
         }catch (Exception e){
             e.printStackTrace();
         }
