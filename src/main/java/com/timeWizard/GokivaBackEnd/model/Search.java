@@ -1,77 +1,70 @@
 package com.timeWizard.GokivaBackEnd.model;
 
+import java.util.Date;
+
 public class Search {
 	protected int VisitId;
-	protected int TimesVisited;
-	protected Users user;
-	protected Loans loan;
-	public Search(int visitId, int timesVisited, Users user, Loans loan) {
-		super();
-		VisitId = visitId;
-		TimesVisited = timesVisited;
-		this.user = user;
-		this.loan = loan;
-	}
+	protected String UserName;
+	protected int LoanId;
+	protected Date VisitedTime;
+	protected String Category;
+	protected String Country;
+	protected int PartnerId;
 
-	public Search(int visitId) {
-		super();
-		VisitId = visitId;
-	}
-
-	public Search(int timesVisited, Users user, Loans loan) {
-		super();
-		TimesVisited = timesVisited;
-		this.user = user;
-		this.loan = loan;
-	}
 
 	public int getVisitId() {
 		return VisitId;
 	}
+
 	public void setVisitId(int visitId) {
 		VisitId = visitId;
 	}
-	public int getTimesVisited() {
-		return TimesVisited;
-	}
-	public void setTimesVisited(int timesVisited) {
-		TimesVisited = timesVisited;
-	}
-	public Users getUser() {
-		return user;
-	}
-	public void setUser(Users user) {
-		this.user = user;
-	}
-	public Loans getLoan() {
-		return loan;
-	}
-	public void setLoan(Loans loan) {
-		this.loan = loan;
+
+	public String getUserName() {
+		return UserName;
 	}
 
-	@Override
-	public int hashCode() {
-		return user.getUserName().hashCode() * 37
-				+ loan.getLoanId();
+	public void setUserName(String userName) {
+		UserName = userName;
 	}
 
-	@Override
-	public boolean equals(Object object){
-			if(this == object) {
-				return true;
-			}
-			if(object == null || getClass() != object.getClass()) {
-				return false;
-			}
-
-			Search search = (Search) object;
-
-			return this.getUser().equals(search.getUser())
-					&& this.getLoan().equals(search.getLoan());
-		}
-
-
-
-
+	public int getLoanId() {
+		return LoanId;
 	}
+
+	public void setLoanId(int loanId) {
+		LoanId = loanId;
+	}
+
+	public Date getVisitedTime() {
+		return VisitedTime;
+	}
+
+	public void setVisitedTime(Date visitedTime) {
+		VisitedTime = visitedTime;
+	}
+
+	public String getCategory() {
+		return Category;
+	}
+
+	public void setCategory(String category) {
+		Category = category;
+	}
+
+	public String getCountry() {
+		return Country;
+	}
+
+	public void setCountry(String country) {
+		Country = country;
+	}
+
+	public int getPartnerId() {
+		return PartnerId;
+	}
+
+	public void setPartnerId(int partnerId) {
+		PartnerId = partnerId;
+	}
+}
