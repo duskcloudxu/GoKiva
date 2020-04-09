@@ -118,9 +118,11 @@ public class MainController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/history")
   public ModelAndView history(@RequestParam Map<String, String> allRequestParams, HttpSession session) {
+
     if(session.getAttribute("userName")==null){
       return new ModelAndView("error","errorInfo","Please Login First");
     }
+    allRequestParams.put("userName", (String) session.getAttribute("userName"));
     int page = Integer.parseInt(allRequestParams.getOrDefault("page", "0"));
     if (page < 0) {
       page = 0;
@@ -148,6 +150,7 @@ public class MainController {
     if(session.getAttribute("userName")==null){
       return new ModelAndView("error","errorInfo","Please Login First");
     }
+    allRequestParams.put("userName", (String) session.getAttribute("userName"));
     int page = Integer.parseInt(allRequestParams.getOrDefault("page", "0"));
     if (page < 0) {
       page = 0;

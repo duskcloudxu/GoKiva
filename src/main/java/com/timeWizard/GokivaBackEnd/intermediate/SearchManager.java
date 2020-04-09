@@ -19,7 +19,7 @@ public class SearchManager {
     String PartnerId = searchObj.getOrDefault("PartnerId", null);
     String Category = searchObj.getOrDefault("Category", null);
     String SortBy=searchObj.getOrDefault("SortBy",null);
-    String UserName = "test1";
+    String UserName = searchObj.getOrDefault("userName", null);
     if (page < 0) {
       page = 0;
     }
@@ -77,11 +77,14 @@ public class SearchManager {
     ResultSet rs = cm.execQuery(queryStr);
     System.out.println(queryStr);
     System.out.println(insertQueryStr);
-    //add insert statement
-    cm.execQueryInsert(insertQueryStr);
+
     while (rs.next()) {
       FrontEndLoanModel fm = FrontEndLoanModel.match(rs);
       res.add(fm);
+    }
+    //add insert statement
+    if(queryClauses.size() != 0){
+      cm.execQueryInsert(insertQueryStr);
     }
     return res;
   }
