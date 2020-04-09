@@ -54,6 +54,9 @@ dependencies {
 	compile group: 'taglibs', name: 'standard', version: '1.1.2'
 	// https://mvnrepository.com/artifact/javax.servlet/jstl
 	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+	// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+	testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.6.1'
+
 
 
 

@@ -44,7 +44,7 @@
             <span class="border border-secondary">
             <div class="d-flex justify-content-center">
 
-                <form class="form-signin">
+                <form action="${pageContext.request.contextPath}/userRegister" class="form-signin" method="post">
                     <div class="form-group">
                         <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
                     </div>

@@ -50,6 +50,28 @@ public class Search {
 		this.loan = loan;
 	}
 
+	@Override
+	public int hashCode() {
+		return user.getUserName().hashCode() * 37
+				+ loan.getLoanId();
+	}
+
+	@Override
+	public boolean equals(Object object){
+			if(this == object) {
+				return true;
+			}
+			if(object == null || getClass() != object.getClass()) {
+				return false;
+			}
+
+			Search search = (Search) object;
+
+			return this.getUser().equals(search.getUser())
+					&& this.getLoan().equals(search.getLoan());
+		}
 
 
-}
+
+
+	}
