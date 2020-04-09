@@ -10,8 +10,8 @@ public class SearchManagerTest {
 
   @Test
   public void getLoanInPage() throws SQLException, IllegalAccessException {
-//    SearchManager sm=new SearchManager();
-//    List<FrontEndLoanModel>res=sm.getLoanInPage(null);
-//    System.out.println();
+    SearchManager sm=new SearchManager();
+    List<FrontEndLoanModel>res=sm.getLoanInPage(0);
+    System.out.println();
   }
 }
