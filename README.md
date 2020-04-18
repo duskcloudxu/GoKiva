@@ -1,57 +1,88 @@
-# GoKiva
+# GoKiva​ :evergreen_tree:
 
-## Install Instruction
+Gokiva is a website for presenting [data provided by Kiva](https://www.kaggle.com/kiva/data-science-for-good-kiva-crowdfunding) in various query condition and visualizing data distributions as bar chart to give users a direct insight of this dataset of over 300k records.
 
-The environment recommended:
+## Introduction​ :page_with_curl:
 
-- Intellij IDEA
+This is group final proeject of our data system course. We decide to build a website based on kiva dataset on gaggle, and develop data sorting, filtering and visualization features. This project was implemented under `springboot` framework with `gradle` as build environment manager, and we use `mysql` as the database and `JDBC` as intermediate library between backend and database. For the front end, according to the requirement of our instructor, we use `jsp` to produce `HTML` code, and used library `JSTL` for sake of syntax convenience.
 
-> I very recommend this IDE as its used by litterally every java programmer in industry unless you are a programmer started Java in 20 years ago and know every detail in java lol
+## workflow diagram​ :world_map:
 
-To run this project, simply pull it down from GitHub, run
+![img](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdxyig1akyj30u010j7b0.jpg)
 
-```bash
-./gradlew build
+## implementation detail​ :books:
+
+### backend data model
+
+As the requirement of our course, we use DAO pattern to establish the connection relationship between backend and database. It is the lowest layer of backend and used by class of higher layer, e.g. DataVisManager, to **fetch data** in the mysql database.
+
+### "frontend" data processing
+
+In development, we notice that the DAO class required by Spec cannot fulfill our need to get data from mysql in desired form. Therefore we implemented the class `SearchManager` and class `DataVisManager` to get data via multiple DAO classes, and transform those data into the form we want.
+
+Here the quote of frontend means that it is not a independent frontend like React or Vue application, which are common nowadays. Since we are supposed to use jsp, there is no easy way to build an independent frontend that make query to backend and fetch data. In our project, we use `JSTL` to provide some *syntax sugar*, and utilize intermediate class like `SearchManager` to provide data according to the *parameters* passed by URL(supported by `Springboot` controller module )
+
+```jsp
+ <table class="table table-bordered rounded">
+                        <thead>
+                        <tr>
+                            <th scope="col">LoanId</th>
+                            <th scope="col">FundAmt</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">DisbursedAmt</th>
+                            <th scope="col">PartnerId</th>
+                            <th scope="col">Region</th>
+                            <th scope="col">Theme</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:set var="list" scope="session"
+                               value="${searchManager.getLoanInPage(searchObj)}"/>
+                        <c:forEach items="${list}" var="item">
+                            <tr>
+                                <td>${item.getLoanId()}</td>
+                                <td>${item.getFundAmount()}</td>
+                                <td>${item.getFundTime()}</td>
+                                <td>${item.getDisbursedAmount()}</td>
+                                <td>${item.getPartnerId()}</td>
+                                <td>${item.getRegionCountry()}</td>
+                                <td>${item.getTheme()}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
 ```
 
-to build dependencies and ather that, run
+## preview​ :eyeglasses:
 
-``` java
-./gradlew bootrun
-```
+- home page(before sign in)
 
-to run the project, ensure your `localhost:8081` port is not being used.
+![image-20200418005802120](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdxz70xx0vj31r20u0u10.jpg)
 
-Visit `localhost:8081/index` to see the current index page.
+- sign in
 
-In real development, IDEA offers powerful support in gradle so I would like to use IDEA, and I think there is no reason not to try this powerful IDE.
+![image-20200418010016313](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdxz94631wj31r20u0di2.jpg)
 
-## Configuration
+- Home page (after sign in)
 
-The password and username to mysql is hardcoded at `src/main/java/com/timeWizard/GokivaBackEnd/ConnectionManager.java`. At first I was thinking to set up a online database for everyone but it might be not so necessary to us compared to the possible cost...So currently you could change the password and username in the ConnectionManager.java and **please do not update this modification to GitHub**.
+  ![image-20200418010054892](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdxz9xe9lsj31r20u0x6s.jpg)
 
-![image-20200319224825186](https://tva1.sinaimg.cn/large/00831rSTgy1gd0ch08ystj310q0hojuw.jpg)
+- Query loans by Category
 
-After you configured your database, run corresponding test of ConnectionManager in `src/test/java/com/timeWizard/GokivaBackEnd/ConnectionManagerTest.java`, if it passed, then it means the connection to the database is good.
+  ![image-20200418010128335](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdxzadpr8lj31r40u0b29.jpg)
 
-## Test in backend
+- Search page
 
-In Idea, you could generate corresponding test file by rightclick->generate->test.
+  ![image-20200418010204146](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdxzaz9g5qj31r60u0gsp.jpg)
 
-![image-20200319223607538](https://tva1.sinaimg.cn/large/00831rSTgy1gd0c4abe5lj30ua0run0k.jpg)
+- Data visualization page
 
-Do remember use JUnit4 as testing library. I personnaly recommend generate a test for every method when you are developing. For example:
+  ![image-20200418010301367](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdxzbz8l6kj31r20u0whu.jpg)
 
-![image-20200319225426992](https://tva1.sinaimg.cn/large/00831rSTgy1gd0cn9blksj31iq09o0uo.jpg)
+## Other libraries used in jsp via CDN :hammer:
 
-To test `getBorrowersById` Method in BorrowersDao. By clicking the triangle icon in the left you could run or debug in test, and it would be very useful in development since you could set breakpoint and inspect your variables at any time to help you figure out the problem. Also, test is a good way to help others to understand the method you write.
+- [BootStrap4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+- [ECharts](https://www.echartsjs.com/examples/en/)
 
-![image-20200319224029752](https://tva1.sinaimg.cn/large/00831rSTgy1gd0c8rfddzj31hy0giwj7.jpg)
+- [JQuery](https://jquery.com/)
 
-## Plugin recommendation
-
-### FrontEnd
-
-- FileWatcher
-
-  To watch and compile your less file under resource file in real time. For anyone want to join frontend development, I recommend to install it so you could compile less file to CSS file in real time.
